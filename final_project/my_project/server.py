@@ -67,6 +67,29 @@ def create_data_item(item: DataBase):
     )
 
 
+@app.put("/data/{item_id}", response_model=DataBase)
+def update_data_item(item_id: int, item: DataBase):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "UPDATE data SET value_1 = ?, value_2 = ? WHERE id = ?",
+        (item.value_1, item.value_2, item_id),
+    )
+    conn.commit()
+    conn.close()
+    return DataBase(id=item_id, value_1=item.value_1, value_2=item.value_2)
+
+
+@app.delete("/data/{item_id}", status_code=204)
+def delete_data_item(item_id: int):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM data WHERE id = ?", (item_id,))
+    conn.commit()
+    conn.close()
+    return Response(status_code=204)
+
+
 # ここから下は書き換えない
 @app.get("/", response_class=HTMLResponse)
 async def read_html():

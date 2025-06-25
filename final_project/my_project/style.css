@@ -23,6 +23,12 @@ li {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+#data-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 form {
     background-color: #fff;
     padding: 20px;
@@ -58,4 +64,45 @@ button {
 
 button:hover {
     background-color: #004494;
+}
+
+#data-list button {
+    background-color: #d9534f;
+    color: #fff;
+}
+
+#data-list button:hover {
+    background-color: #b52a25;
+}
+
+.delete-btn {
+    background-color: #d9534f;
+    color: #fff;
+}
+.delete-btn:hover {
+    background-color: #b52a25;
+}
+
+.edit-btn {
+    background-color: #5cb85c;
+    color: #fff;
+}
+.edit-btn:hover {
+    background-color: #449d44;
+}
+
+.save-btn {
+    background-color: #5bc0de;
+    color: #fff;
+}
+.save-btn:hover {
+    background-color: #31b0d5;
+}
+
+.cancel-btn {
+    background-color: #f0ad4e;
+    color: #fff;
+}
+.cancel-btn:hover {
+    background-color: #ec971f;
 }
