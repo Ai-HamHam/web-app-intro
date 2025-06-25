@@ -59,7 +59,6 @@
     # final_project ディレクトリへ移動
     cd final_project
     ```
-3.  `template` ディレクトリを `my_project` という名前でコピーします。
     ```bash
     # Mac / Linux / Git Bash の場合 (-r オプションでディレクトリ内も再帰的にコピー)
     cp -r template my_project
