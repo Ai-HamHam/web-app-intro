@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 表示用span
             const textSpan = document.createElement('span');
-            textSpan.textContent = `ID:${item.id} 値1:${item.value_1} 値2:${item.value_2 ?? ''} `;
+            textSpan.textContent = `ID:${item.id} 日付:${item.value_1} memo:${item.value_2 ?? ''} `;
             li.appendChild(textSpan);
 
             // 削除ボタン
@@ -47,19 +47,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 value2Edit.value = item.value_2 ?? '';
                 value2Edit.style.marginRight = '4px';
 
-                const saveBtn = document.createElement('save-btn');
+                // 保存ボタンとキャンセルボタンをbutton要素で作成
+                const saveBtn = document.createElement('button');
                 saveBtn.textContent = '保存';
+                saveBtn.classList.add('save-btn');
 
-                const cancelBtn = document.createElement('cancel-btn');
+                const cancelBtn = document.createElement('button');
                 cancelBtn.textContent = 'キャンセル';
-                cancelBtn.style.marginLeft = '4px';
+                cancelBtn.classList.add('cancel-btn');
+                cancelBtn.style.marginLeft = '8px';
+
+                // ボタンを横並び・中央配置にするためのspan
+                const btnSpan = document.createElement('span');
+                btnSpan.style.display = 'flex';
+                btnSpan.style.flexDirection = 'row';
+                btnSpan.style.justifyContent = 'flex-end'; // 右寄せ
+                btnSpan.style.alignItems = 'center';       // 縦中央
+                btnSpan.style.width = '100%';
+                btnSpan.style.marginTop = '8px';
+                btnSpan.appendChild(saveBtn);    // 左
+                btnSpan.appendChild(cancelBtn);  // 右
 
                 // 編集フォーム表示
                 li.innerHTML = '';
                 li.appendChild(value1Edit);
                 li.appendChild(value2Edit);
-                li.appendChild(saveBtn);
-                li.appendChild(cancelBtn);
+                li.appendChild(btnSpan);
 
                 saveBtn.onclick = async () => {
                     await fetch(`/data/${item.id}`, {
@@ -109,11 +122,89 @@ document.addEventListener('DOMContentLoaded', () => {
 
             await fetchData();
 
+            setNowToValue1(); // 追加後に再度自動入力
+
         } catch (error) {
             console.error('データの追加に失敗しました:', error);
             alert('データの追加に失敗しました。');
         }
     });
 
+    // 値1に自動で今の日時（何年、何月、何曜日、何時）が記入されるようにする
+    function setNowToValue1() {
+        const now = new Date();
+        const week = ['日', '月', '火', '水', '木', '金', '土'];
+        const str = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日(${week[now.getDay()]}) ${now.getHours()}時${now.getMinutes()}分`;
+        value1Input.value = str;
+    }
+
+    // ページ読み込み時に自動入力
+    setNowToValue1();
+
+    // フォームがリセットされたときも自動入力
+    addDataForm.addEventListener('reset', setNowToValue1);
+
     fetchData();
+
+    // マウスストーカーを作成
+    function createStalker() {
+        const stalker = document.createElement('div');
+        stalker.className = 'mouse-stalker';
+
+        // ランダムな色を生成（中身と淵で同じ色）
+        const color = `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`;
+        stalker.style.background = color;
+        stalker.style.opacity = '0.2';
+        stalker.style.border = `2px solid ${color}`;
+
+        // ランダムな大きさ（最小20px, 最大60px程度）
+        const size = Math.floor(Math.random() * 41) + 20;
+        stalker.style.width = `${size}px`;
+        stalker.style.height = `${size}px`;
+
+        document.body.appendChild(stalker);
+
+        // ランダムな追従スピード（1〜5px/frame）
+        const speed = Math.random() * 4 + 1;
+
+        let mouseX = 0, mouseY = 0;
+        let stalkerX = window.innerWidth / 2, stalkerY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateStalker() {
+            const dx = mouseX - stalkerX;
+            const dy = mouseY - stalkerY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance > speed) {
+                // 一定速度で進む
+                stalkerX += (dx / distance) * speed;
+                stalkerY += (dy / distance) * speed;
+            } else {
+                // 近づいたらピタッと止める
+                stalkerX = mouseX;
+                stalkerY = mouseY;
+            }
+
+            stalker.style.left = `${stalkerX}px`;
+            stalker.style.top = `${stalkerY}px`;
+            requestAnimationFrame(animateStalker);
+        }
+        animateStalker();
+    }
+
+    // 最初のストーカーを1つ作成
+    createStalker();
+
+    // 何もないところをダブルクリックでストーカー追加
+    document.addEventListener('dblclick', (e) => {
+        // ボタンや入力欄など以外でのみ追加
+        if (e.target === document.body || e.target === document.documentElement) {
+            createStalker();
+        }
+    });
 });

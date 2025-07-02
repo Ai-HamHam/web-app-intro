@@ -66,19 +66,11 @@ button:hover {
     background-color: #004494;
 }
 
-#data-list button {
-    background-color: #d9534f;
-    color: #fff;
-}
-
-#data-list button:hover {
-    background-color: #b52a25;
-}
-
 .delete-btn {
     background-color: #d9534f;
     color: #fff;
 }
+
 .delete-btn:hover {
     background-color: #b52a25;
 }
@@ -87,22 +79,42 @@ button:hover {
     background-color: #5cb85c;
     color: #fff;
 }
+
 .edit-btn:hover {
     background-color: #449d44;
 }
 
 .save-btn {
-    background-color: #5bc0de;
+    background-color: #0a64b9;
     color: #fff;
 }
+
 .save-btn:hover {
-    background-color: #31b0d5;
+    background-color: #084a87;
+    /* 濃い青に変更 */
 }
 
 .cancel-btn {
-    background-color: #f0ad4e;
+    background-color: #d9534f;
     color: #fff;
 }
+
 .cancel-btn:hover {
-    background-color: #ec971f;
+    background-color: #b52a25;
+    /* 濃い赤に変更 */
+}
+
+.mouse-stalker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+    border-radius: 50%;
+    background: rgba(0, 86, 179, 0.2);
+    border: 2px solid #0056b3;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    transition: background 0.2s, border 0.2s;
 }
