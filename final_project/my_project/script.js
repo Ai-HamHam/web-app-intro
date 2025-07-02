@@ -151,11 +151,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const stalker = document.createElement('div');
         stalker.className = 'mouse-stalker';
 
-        // ランダムな色を生成（中身と淵で同じ色）
-        const color = `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`;
-        stalker.style.background = color;
+        // ランダムな色を生成
+        const color1 = `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`;
+        const color2 = `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`;
+        stalker.style.background = color1;
         stalker.style.opacity = '0.2';
-        stalker.style.border = `2px solid ${color}`;
+        stalker.style.border = `2px solid ${color1}`;
 
         // ランダムな大きさ（最小20px, 最大60px程度）
         const size = Math.floor(Math.random() * 41) + 20;
@@ -180,12 +181,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const dy = mouseY - stalkerY;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
+            // マウスに当たったらグラデーション
+            if (distance < size / 2) {
+                stalker.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
+                stalker.style.opacity = '0.5';
+                stalker.style.border = `2px solid ${color2}`;
+            } else {
+                stalker.style.background = color1;
+                stalker.style.opacity = '0.2';
+                stalker.style.border = `2px solid ${color1}`;
+            }
+
             if (distance > speed) {
-                // 一定速度で進む
                 stalkerX += (dx / distance) * speed;
                 stalkerY += (dy / distance) * speed;
             } else {
-                // 近づいたらピタッと止める
                 stalkerX = mouseX;
                 stalkerY = mouseY;
             }
