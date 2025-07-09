@@ -1,34 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const dataList = document.getElementById('data-list');
-    const addDataForm = document.getElementById('add-data-form');
-    const value1Input = document.getElementById('value1');
-    const value2Input = document.getElementById('value2');
+    const dataList = document.querySelector('ul');
+    const addDataForm = document.querySelector('form');
+    const value1Input = addDataForm.querySelector('input[name="value1"]');
+    const value2Input = addDataForm.querySelector('input[name="value2"]');
 
     // データ一覧を取得して表示
     async function fetchData() {
         const res = await fetch('/data');
         const data = await res.json();
-        const list = document.getElementById('data-list');
+        const list = document.querySelector('ul');
         list.innerHTML = '';
         data.forEach(item => {
             const li = document.createElement('li');
 
             // 表示用span
             const textSpan = document.createElement('span');
-            textSpan.textContent = `ID:${item.id} 日付:${item.value_1} memo:${item.value_2 ?? ''} `;
+            textSpan.innerHTML = `日付:${item.value_1}<br>memo:${item.value_2 ?? ''}`;
             li.appendChild(textSpan);
 
-            // 削除ボタン
-            const delBtn = document.createElement('button');
-            delBtn.textContent = '削除';
-            delBtn.classList.add('delete-btn');
-            delBtn.style.marginLeft = '8px';
-            delBtn.onclick = async () => {
-                if (confirm('本当に削除しますか？')) {
-                    await fetch(`/data/${item.id}`, { method: 'DELETE' });
-                    fetchData();
-                }
-            };
+            // ボタンをspanでまとめて右寄せ
+            const btnSpan = document.createElement('span');
+            btnSpan.style.display = 'flex';
+            btnSpan.style.flexDirection = 'row';
+            btnSpan.style.justifyContent = 'flex-end';
+            btnSpan.style.alignItems = 'center';
+            btnSpan.style.marginLeft = 'auto';
 
             // 編集ボタン
             const editBtn = document.createElement('button');
@@ -58,21 +54,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 cancelBtn.style.marginLeft = '8px';
 
                 // ボタンを横並び・中央配置にするためのspan
-                const btnSpan = document.createElement('span');
-                btnSpan.style.display = 'flex';
-                btnSpan.style.flexDirection = 'row';
-                btnSpan.style.justifyContent = 'flex-end'; // 右寄せ
-                btnSpan.style.alignItems = 'center';       // 縦中央
-                btnSpan.style.width = '100%';
-                btnSpan.style.marginTop = '8px';
-                btnSpan.appendChild(saveBtn);    // 左
-                btnSpan.appendChild(cancelBtn);  // 右
+                const editBtnSpan = document.createElement('span');
+                editBtnSpan.style.display = 'flex';
+                editBtnSpan.style.flexDirection = 'row';
+                editBtnSpan.style.justifyContent = 'flex-end';
+                editBtnSpan.style.alignItems = 'center';
+                editBtnSpan.style.width = '100%';
+                editBtnSpan.style.marginTop = '8px';
+                editBtnSpan.appendChild(saveBtn);
+                editBtnSpan.appendChild(cancelBtn);
 
                 // 編集フォーム表示
                 li.innerHTML = '';
                 li.appendChild(value1Edit);
                 li.appendChild(value2Edit);
-                li.appendChild(btnSpan);
+                li.appendChild(editBtnSpan);
 
                 saveBtn.onclick = async () => {
                     await fetch(`/data/${item.id}`, {
@@ -91,12 +87,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
             };
 
-            // ボタンをspanでまとめて右寄せ
-            const btnSpan = document.createElement('span');
+            // 削除ボタン
+            const delBtn = document.createElement('button');
+            delBtn.textContent = '削除';
+            delBtn.classList.add('delete-btn');
+            delBtn.style.marginLeft = '8px';
+            delBtn.onclick = async () => {
+                if (confirm('本当に削除しますか？')) {
+                    await fetch(`/data/${item.id}`, { method: 'DELETE' });
+                    fetchData();
+                }
+            };
+
             btnSpan.appendChild(editBtn);
             btnSpan.appendChild(delBtn);
-            li.appendChild(btnSpan);
 
+            // liをflex化してボタンを右端に
+            li.style.display = 'flex';
+            li.style.justifyContent = 'space-between';
+            li.style.alignItems = 'center';
+
+            li.appendChild(btnSpan);
             list.appendChild(li);
         });
     }
