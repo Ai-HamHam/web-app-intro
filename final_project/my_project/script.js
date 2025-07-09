@@ -174,6 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
         stalker.style.width = `${size}px`;
         stalker.style.height = `${size}px`;
 
+        stalker.style.position = 'absolute'; // ここを追加
+
         document.body.appendChild(stalker);
 
         // ランダムな追従スピード（1〜5px/frame）
@@ -183,8 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let stalkerX = window.innerWidth / 2, stalkerY = window.innerHeight / 2;
 
         document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+            mouseX = e.pageX; // clientX→pageXに修正
+            mouseY = e.pageY; // clientY→pageYに修正
         });
 
         function animateStalker() {
