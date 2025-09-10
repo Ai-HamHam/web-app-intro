@@ -1,0 +1,145 @@
+body {
+    font-family: "Kaisei Opti", 'Segoe UI', 'Hiragino Sans', 'Meiryo', serif, sans-serif;
+    margin: 20px;
+    background: linear-gradient(to bottom, #fff 0%, #d6e1ef 100%);
+    color: #333333;
+    min-height: 150vh;
+    /* 画面の1.5倍の高さを確保し、常にスクロールできる */
+}
+
+h1,
+h2 {
+    color: #c5cddd;
+    /* もともとの背景色を文字色に */
+    font-family: "Kaisei Opti", 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li>span:first-child {
+    word-break: break-all;
+    max-width: 70%;
+}
+
+#data-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width: calc(100% - 22px);
+    /* padding と border を考慮 */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: "Kaisei Opti", 'Segoe UI', 'Hiragino Sans', 'Meiryo', serif, sans-serif;
+}
+
+button:hover {
+    background-color: #004494;
+}
+
+.delete-btn {
+    background-color: #d9534f;
+    color: #fff;
+}
+
+.delete-btn:hover {
+    background-color: #b52a25;
+}
+
+.edit-btn {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+.edit-btn:hover {
+    background-color: #449d44;
+}
+
+.save-btn {
+    background-color: #0a64b9;
+    color: #fff;
+}
+
+.save-btn:hover {
+    background-color: #084a87;
+    /* 濃い青に変更 */
+}
+
+.cancel-btn {
+    background-color: #d9534f;
+    color: #fff;
+}
+
+.cancel-btn:hover {
+    background-color: #b52a25;
+    /* 濃い赤に変更 */
+}
+
+.mouse-stalker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+    border-radius: 0;
+    background: none;
+    border: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.mouse-stalker {
+    /* 画像用の調整 */
+    object-fit: contain;
+}
+
+.kaisei-opti-regular {
+    font-family: "Kaisei Opti", serif;
+    font-weight: 400;
+    font-style: normal;
+}
